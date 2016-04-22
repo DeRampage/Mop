@@ -1,7 +1,11 @@
+#define JAHR 365
+#define HDT 100
 #include <stdio.h>
 
 float CountCentsFloat(unsigned int betrag);
 double CountCentsDouble(unsigned int betrag);
+float CalcFloatInterest(float amount, float intinPercent, int days);
+double CalcDoubleInterest(double amount, double intinPercent, int days);
 int main(void){
 	/* Protokollblatt
 	1. und 2.)
@@ -18,50 +22,75 @@ int main(void){
 	153
 	
 	6.)
-	
+	1 = 0,9999
 	*/
-	float sg = 0.25; //einfache Genauigkeit
-	double dg = 0.25; //doppelte Genauigkeit
+	float sg = 1000.25; //einfache Genauigkeit
+	double dg = 1000.25; //doppelte Genauigkeit
 	
 	unsigned int betrag = 0;
 	
 	printf("Bitte Betrag eingeben:");
-	scanf("%u", &betrag);
+	scanf("%ld", &betrag);
+	
 	printf("Mit Cents in Float gezaehlt ergibt: %.2f\n", CountCentsFloat(betrag));
-	printf("Mit Cents in Double gezaehlt ergibt: %lf\n", CountCentsDouble(betrag));
-	//Fuer Testzwecke
-	betrag = 83;
-	printf("Bitte Betrag eingeben: %u\n", betrag);
-	printf("Mit Cents in Float gezaehlt ergibt: %.2f\n", CountCentsFloat(betrag));
-	betrag = 84;
-	printf("Bitte Betrag eingeben: %u\n", betrag);
-	printf("Mit Cents in Float gezaehlt ergibt: %.2f\n", CountCentsFloat(betrag));
-	//*/
+	
+	printf("Mit Cents in Double gezaehlt ergibt: %.2lF\n", CountCentsDouble(betrag));
+	
+	// Aufgabe 9
+	printf("Bitte Zinssatz in %% eingeben:");
+	double zins = 0;
+	scanf("%f", &zins);
+	printf("Laufzeit in Tagen eingeben:");
+	int days = 0;
+	scanf("%i", &days);
+	printf("Die Zinsen mit Float betragen: %.2lf\n", CalcFloatInterest(betrag, (float)zins, days));
+	
+	//Aufgabe 10
+	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest((double)betrag, zins, days));
 	return 0;
 }
 
-float CountCentsFloat(unsigned int betrag) {
-	int b = 0;
-	while (b < (int) betrag) {
-		b++;
-	}
+float CountCentsFloat(int betrag) {
 	float cent = 0.0f;
-	int i;
-	for(i = 0; i < b * 100; i++) {
+	for(int i = 0; i < betrag * HDT; i++) {
+		cent = cent + (float)0.01;
+	}
+	return cent ;
+}
+
+double CountCentsDouble(int betrag) {
+	double cent = 0.0f;
+	for(int i = 0; i < (int) betrag * HDT; i++) {
 		cent = cent + 0.01;
 	}
 	return cent;
 }
 
-double CountCentsDouble(unsigned int betrag) {
-	int b = 0;
-	while (b < (int) betrag) {
-		b++;
+//Funktioniert noch nicht richtig
+float CalcFloatInterest(float amount, float intInPercent, int days) { 
+	if(days < 1) {
+		return amount;
 	}
-	double cent = 0.0f;
-	int i;
-	for(i = 0; i < b * 100; i++) {
-		cent = cent + 0.01;
+	float zins = 0;
+	/*
+	for(int i = 0; i < days; i++) {
+		zins = amount * (intInPercent / JAHR);
+		amount = zins + amount;
+		printf("Tag: %d Amount: %f Zins: %f\n", i, amount, zins);
 	}
-	return cent;
+	*/
+	
+	//Fuer ein Jahr
+	zins = amount * intInPercent;
+	return zins;
+}
+
+//noch nicht implementiert
+double CalcDoubleInterest(double amount, double intInPercent, int days) { 
+	if(days < 1) {
+		return amount;
+	}
+	double zins = amount;
+	
+	return zins;
 }
