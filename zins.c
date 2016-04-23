@@ -4,8 +4,13 @@
 
 float CountCentsFloat(unsigned int betrag);
 double CountCentsDouble(unsigned int betrag);
+
 float CalcFloatInterest(float amount, float intinPercent, int days);
 double CalcDoubleInterest(double amount, double intinPercent, int days);
+
+int CalcSaveTimeFloat(float amount, float intInPercent);
+int CalcSaveTimeDouble(double amount, double intInPercent);
+
 int main(void){
 	/* Protokollblatt
 	1. und 2.)
@@ -24,8 +29,8 @@ int main(void){
 	6.)
 	1 = 0,9999
 	*/
-	float sg = 1000.25; //einfache Genauigkeit
-	double dg = 1000.25; //doppelte Genauigkeit
+	float sg = 0.25; //einfache Genauigkeit
+	double dg = 0.25; //doppelte Genauigkeit
 	
 	unsigned int betrag = 0;
 	
@@ -38,15 +43,19 @@ int main(void){
 	
 	// Aufgabe 9
 	printf("Bitte Zinssatz in %% eingeben:");
-	double zins = 0;
+	float zins = 0;
 	scanf("%f", &zins);
 	printf("Laufzeit in Tagen eingeben:");
 	int days = 0;
 	scanf("%i", &days);
-	printf("Die Zinsen mit Float betragen: %.2lf\n", CalcFloatInterest(betrag, (float)zins, days));
+	printf("Die Zinsen mit Float betragen: %.2lf\n", CalcFloatInterest(CountCentsFloat(betrag), zins , days));
 	
 	//Aufgabe 10
-	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest((double)betrag, zins, days));
+	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest(CountCentsDouble(betrag), zins, days));
+	
+	//Aufgabe 11
+	printf("Tage zu sparen mit Float: %d\n", CalcSaveTimeFloat(CountCentsFloat(betrag), zins));
+	printf("Tage zu sparen mit Double: %d\n", CalcSaveTimeDouble(CountCentsDouble(betrag), zins));
 	return 0;
 }
 
@@ -65,32 +74,44 @@ double CountCentsDouble(int betrag) {
 	}
 	return cent;
 }
-
-//Funktioniert noch nicht richtig
+//Fehlerhaft
 float CalcFloatInterest(float amount, float intInPercent, int days) { 
 	if(days < 1) {
 		return amount;
 	}
 	float zins = 0;
-	/*
-	for(int i = 0; i < days; i++) {
-		zins = amount * (intInPercent / JAHR);
-		amount = zins + amount;
-		printf("Tag: %d Amount: %f Zins: %f\n", i, amount, zins);
-	}
-	*/
-	
-	//Fuer ein Jahr
-	zins = amount * intInPercent;
-	return zins;
+	zins = amount * (intInPercent / HDT / JAHR);
+	return zins * days;
 }
 
-//noch nicht implementiert
 double CalcDoubleInterest(double amount, double intInPercent, int days) { 
 	if(days < 1) {
 		return amount;
 	}
-	double zins = amount;
-	
-	return zins;
+	double zins = 0;
+	zins = amount * (intInPercent / HDT / JAHR);
+	return zins * days;
+}
+//Fehlerhaft
+int CalcSaveTimeFloat(float amount, float intInPercent) {
+	int days = 0;
+	float i = 0.00;
+	while(i < amount) {
+		i = i + i * (intInPercent / HDT / JAHR);
+		i = i + (float)0.01;
+		days++;
+	}
+	return days;
+}
+
+
+int CalcSaveTimeDouble(double amount, double intInPercent){
+	int days = 0;
+	double i = 0.01;
+	while(i < amount) {
+		i = i + i * (intInPercent / HDT / JAHR);
+		i = i + 0.01;
+		days++;
+	}
+	return days;
 }
