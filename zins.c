@@ -48,13 +48,13 @@ int main(void){
 	printf("Laufzeit in Tagen eingeben:");
 	int days = 0;
 	scanf("%i", &days);
-	printf("Die Zinsen mit Float betragen: %.2lf\n", CalcFloatInterest(CountCentsFloat(betrag), zins , days));
+	printf("Die Zinsen mit Float betragen: %.2f\n", CalcFloatInterest(betrag, zins , days));
 	
 	//Aufgabe 10
 	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest(CountCentsDouble(betrag), zins, days));
 	
 	//Aufgabe 11
-	printf("Tage zu sparen mit Float: %d\n", CalcSaveTimeFloat(CountCentsFloat(betrag), zins));
+	printf("Tage zu sparen mit Float: %d\n", CalcSaveTimeFloat(betrag, zins));
 	printf("Tage zu sparen mit Double: %d\n", CalcSaveTimeDouble(CountCentsDouble(betrag), zins));
 	return 0;
 }
@@ -74,30 +74,31 @@ double CountCentsDouble(int betrag) {
 	}
 	return cent;
 }
-//Fehlerhaft
+
 float CalcFloatInterest(float amount, float intInPercent, int days) { 
-	if(days < 1) {
-		return amount;
+	intInPercent = intInPercent / HDT;
+	float zins = amount;
+	for(int i = 0; i < days; i++) {
+		zins = zins * (1 + intInPercent / JAHR);
 	}
-	float zins = 0;
-	zins = amount * (intInPercent / HDT / JAHR);
-	return zins * days;
+	return zins - amount;
 }
 
 double CalcDoubleInterest(double amount, double intInPercent, int days) { 
 	if(days < 1) {
-		return amount;
+		return 0;
 	}
 	double zins = 0;
 	zins = amount * (intInPercent / HDT / JAHR);
 	return zins * days;
 }
-//Fehlerhaft
+
 int CalcSaveTimeFloat(float amount, float intInPercent) {
 	int days = 0;
+	intInPercent = intInPercent / HDT;
 	float i = 0.00;
 	while(i < amount) {
-		i = i + i * (intInPercent / HDT / JAHR);
+		i = i + i * (intInPercent / JAHR);
 		i = i + (float)0.01;
 		days++;
 	}
