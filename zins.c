@@ -42,20 +42,20 @@ int main(void){
 	printf("Mit Cents in Double gezaehlt ergibt: %.2lF\n", CountCentsDouble(betrag));
 	
 	// Aufgabe 9
-	printf("Bitte Zinssatz in %% eingeben:");
+	printf("Bitte Zinssatz in %% eingeben: ");
 	float zins = 0;
 	scanf("%f", &zins);
-	printf("Laufzeit in Tagen eingeben:");
+	printf("Laufzeit in Tagen eingeben: ");
 	int days = 0;
 	scanf("%i", &days);
 	printf("Die Zinsen mit Float betragen: %.2f\n", CalcFloatInterest(betrag, zins , days));
 	
 	//Aufgabe 10
-	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest(CountCentsDouble(betrag), zins, days));
+	printf("Die Zinsen mit Double betragen: %.2lf\n", CalcDoubleInterest(betrag, zins, days));
 	
 	//Aufgabe 11
 	printf("Tage zu sparen mit Float: %d\n", CalcSaveTimeFloat(betrag, zins));
-	printf("Tage zu sparen mit Double: %d\n", CalcSaveTimeDouble(CountCentsDouble(betrag), zins));
+	printf("Tage zu sparen mit Double: %d\n", CalcSaveTimeDouble(betrag, zins));
 	return 0;
 }
 
@@ -79,18 +79,18 @@ float CalcFloatInterest(float amount, float intInPercent, int days) {
 	intInPercent = intInPercent / HDT;
 	float zins = amount;
 	for(int i = 0; i < days; i++) {
-		zins = zins * (1 + intInPercent / JAHR);
+		zins = (float)zins * (1.0 + intInPercent / JAHR);
 	}
 	return zins - amount;
 }
 
 double CalcDoubleInterest(double amount, double intInPercent, int days) { 
-	if(days < 1) {
-		return 0;
+	intInPercent = intInPercent / HDT;
+	double zins = amount;
+	for(int i = 0; i < days; i++) {
+		zins = zins * (1 + intInPercent / JAHR);
 	}
-	double zins = 0;
-	zins = amount * (intInPercent / HDT / JAHR);
-	return zins * days;
+	return zins - amount;
 }
 
 int CalcSaveTimeFloat(float amount, float intInPercent) {
@@ -98,8 +98,8 @@ int CalcSaveTimeFloat(float amount, float intInPercent) {
 	intInPercent = intInPercent / HDT;
 	float i = 0.00;
 	while(i < amount) {
-		i = i + i * (intInPercent / JAHR);
 		i = i + (float)0.01;
+		i = i + i * (intInPercent / JAHR);
 		days++;
 	}
 	return days;
@@ -108,10 +108,10 @@ int CalcSaveTimeFloat(float amount, float intInPercent) {
 
 int CalcSaveTimeDouble(double amount, double intInPercent){
 	int days = 0;
-	double i = 0.01;
+	double i = 0.0f;
 	while(i < amount) {
-		i = i + i * (intInPercent / HDT / JAHR);
 		i = i + 0.01;
+		i = i + i * (intInPercent / HDT / JAHR);
 		days++;
 	}
 	return days;
