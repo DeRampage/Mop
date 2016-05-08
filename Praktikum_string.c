@@ -1,5 +1,5 @@
 #define GIGA 1024
-#define ZWO
+#define ZWO 33
 #include <stdio.h>
 #include <string.h>
 
@@ -11,18 +11,20 @@ int ReplaceWord(char* dest, const char* src, const char* word, const char* newWo
 int main(void){
 	//const char* text = "nanana!";
 	
-
+	
 	char text[GIGA] ="";
 	printf("Bitte Text eingeben: ");
 	fgets(text, GIGA, stdin);
 	printf("Suche nach Zeichen: ");
 	char zeichen = "\0";
 	scanf("%c\n", &zeichen);
+	
 	printf("Ersetze Zeichen: ");
 	char ersatzzeichen = "\0";
 	scanf("%c\n", &ersatzzeichen);
 	//aufgabe 2
-	if(text[0] == '\n') {
+	
+	if(text[0] == '\n' || text[0] == " ") {
 		int i = 0;
 		char ersatz[] = "nanana!";
 		while(i < 7 ) {
@@ -30,10 +32,11 @@ int main(void){
 			i++;
 		}
 	}
+	
 	if(zeichen == '\n') {
 		zeichen = 'a';
 	}
-
+	
 	printf("Anzahl Zeichen \"%c\": %d", zeichen, CountChar(text, zeichen));
 	
 	//Aufgabe 3
@@ -44,7 +47,7 @@ int main(void){
 	//Aufgabe 6&7
 	char wort[ZWO] ="";
 	printf("Suche nach Wort: ");
-	scanf("%s\n", &wort);
+	scanf("%32s\n", &wort);
 	printf("Anzahl Woerter \"%s\": %d", wort, CountWord(text, wort));
 	
 	//Aufgabe 8
@@ -54,10 +57,12 @@ int main(void){
 	scanf("%s\n", &neueswort);
 	ReplaceWord(nochneuertext, text, wort, neueswort);
 	printf("Text ersetzt : %s", nochneuertext);
+	
 	return 0;
 }
 
 int CountChar(const char* src, char ch) {
+	if(src == NULL) return -1;
 	int counter = 0;
 	int i = 0;
 	while (src[i] != '\0') {
@@ -70,22 +75,30 @@ int CountChar(const char* src, char ch) {
 }
 
 int ReplaceChar(char* dest, const char* src, char ch, char newCh) {
+	if(src == NULL) return -1;
+	if(dest == NULL) return -1;
 	int counter = 0;
 	int i = 0;
-	while(src[i] != '\0') {
-		if(src[i] == ch) {
-			dest[i] = newCh;
+	if(src[0] == '\0') {
+		dest[0] == '\0';
+	}
+	while(src[0] != '\0') {
+		if(src[0] == ch) {
+			dest[0] = newCh;
 			counter++;
 		} else {
-			dest[i] = src[i];
+			dest[0] = src[0];
 		}
-		i++;
+		dest++;
+		src++;
 	}
-	
+	dest[0] = '\0';
 	return counter;
 }
 
 int CountWord(const char* src, const char* word) {
+	if(src == NULL) return -1;
+	if(word == NULL) return -1;
 	int counter = 0;
 	int b = 0;
 	int wortlaenge = strlen(word);
@@ -104,9 +117,19 @@ int CountWord(const char* src, const char* word) {
 }
 
 int ReplaceWord(char* dest, const char* src, const char* word, const char* newWord) {
+	if(src == NULL || dest == NULL || newWord == NULL || word == NULL) return -1;
+	if(src[0] == '\0') {
+		dest[0] = '\0';
+	}
+	if(strstr(src, word) == NULL){
+		for(int i = 0; i < strlen(src); i++) {
+			dest[i] = src[i];
+		}
+	}
 	int counter = 0;
 	int b = 0;
 	int wortlaenge = strlen(word);
+	if(wortlaenge != strlen(newWord)) return -1;
 	//Array durchlaufen
 	for(int i = 0; i < strlen(src); i++) {
 		b = 0;
@@ -124,7 +147,11 @@ int ReplaceWord(char* dest, const char* src, const char* word, const char* newWo
 				}	
 			}
 		} else {
+			if(src[0] == '\0') {
+				dest[i] = " ";
+			}
 			dest[i] = src[i];
 		}
 	}
+	return counter;
 }
