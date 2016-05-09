@@ -7,6 +7,7 @@ int CountChar(const char* src, char ch);
 int ReplaceChar(char* dest, const char* src, char ch, char newCh);
 int CountWord(const char* src, const char* word);
 int ReplaceWord(char* dest, const char* src, const char* word, const char* newWord);
+int ReplaceWord2(char* dest, const char* src, const char* word, const char* newWord);
 
 int main(void){
 	//const char* text = "nanana!";
@@ -24,7 +25,7 @@ int main(void){
 	scanf("%c\n", &ersatzzeichen);
 	//aufgabe 2
 	
-	if(text[0] == '\n' || text[0] == " ") {
+	if(text[0] == '\n') {
 		int i = 0;
 		char ersatz[] = "nanana!";
 		while(i < 7 ) {
@@ -55,8 +56,9 @@ int main(void){
 	char neueswort[ZWO] ="";
 	printf("\nErsetze \"%s\" durch : ", wort);
 	scanf("%s\n", &neueswort);
-	ReplaceWord(nochneuertext, text, wort, neueswort);
-	printf("Text ersetzt : %s", nochneuertext);
+	int check = ReplaceWord(nochneuertext, text, wort, neueswort);
+	ReplaceWord2(nochneuertext, text, wort, neueswort);
+	printf("Text ersetzt 2: %s", nochneuertext);
 	
 	return 0;
 }
@@ -102,7 +104,7 @@ int CountWord(const char* src, const char* word) {
 	int counter = 0;
 	int b = 0;
 	int wortlaenge = strlen(word);
-	for(int i = 0; i < strlen(src); i++) {
+	for(int i = 0; i < (int)strlen(src); i++) {
 		b = 0;
 		while (src[i + b] == word[b]) {
 			b++;
@@ -118,40 +120,29 @@ int CountWord(const char* src, const char* word) {
 
 int ReplaceWord(char* dest, const char* src, const char* word, const char* newWord) {
 	if(src == NULL || dest == NULL || newWord == NULL || word == NULL) return -1;
-	if(src[0] == '\0') {
-		dest[0] = '\0';
+	strcpy(dest, src);
+	int i = 0;
+	int l = strlen(newWord);
+	while(marker != NULL){
+		i++;
 	}
-	if(strstr(src, word) == NULL){
-		for(int i = 0; i < strlen(src); i++) {
-			dest[i] = src[i];
+	return i;
+}
+int ReplaceWord2(char* dest, const char* src, const char* word, const char* newWord) {
+	if(src == NULL || dest == NULL || newWord == NULL || word == NULL) return -1;
+	strcpy(dest, src);
+	dest = strstr(dest, word);
+	if(dest){
+		char temp[GIGA] = "\0";
+		strcpy(temp, newWord);
+		strcpy(temp + strlen(newWord), dest + strlen(word));
+		
+		int lenght = strlen(dest);
+		for(int i = 0; i < lenght; i++){
+			dest[i] = '\0';
 		}
+		strcpy(dest, temp);
+	}else{
+		return 0;
 	}
-	int counter = 0;
-	int b = 0;
-	int wortlaenge = strlen(word);
-	if(wortlaenge != strlen(newWord)) return -1;
-	//Array durchlaufen
-	for(int i = 0; i < strlen(src); i++) {
-		b = 0;
-		//gesamte Wortlaenge pruefen
-		if(src[i + b] == word[b]) {
-			while (src[i + b] == word[b]) {
-				b++;
-				if(b == wortlaenge){
-					while (b > 0) {
-						dest[i + b - 1] = newWord[b - 1];
-						b--;
-					}
-					i = i + wortlaenge;
-					counter++;
-				}	
-			}
-		} else {
-			if(src[0] == '\0') {
-				dest[i] = " ";
-			}
-			dest[i] = src[i];
-		}
-	}
-	return counter;
 }
