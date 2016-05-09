@@ -77,18 +77,18 @@ int main(int argc, char** argv) {
 	//FillScreen(videoRam, &sandyBrown);
 	
 	//Aufgabe 3
-	/*
+	
 	tComplex ceins = {0, 0}; // Antwort 128
 	tComplex czwo = {0.5, 0}; // Antwort 5
 	tComplex cdrei = {-14, 17}; // Antwort 0
-	printf("\nAnzahl Wiederholung: %i", Iteration(&czwo));
-	*/
+	printf("Anzahl Wiederholung: %i", Iteration(&czwo));
+	
 	
 	//Aufgabe 5
-	/*
+	
 	tComplex ctest = {-2, -1};
 	double delta = 0.008;
-	*/
+	
 	
 	// Aufgabe 6
 	/*
@@ -96,9 +96,7 @@ int main(int argc, char** argv) {
 	double delta = 0.0000004;
 	*/
 	
-	//Mandelbrot(videoRam, &ctest, delta);
-	
-	/* Zusatzaufgabe*/
+	Mandelbrot(videoRam, &ctest, delta);
 	
 	SDL_Flip(screen);
 	return 0;
@@ -135,17 +133,14 @@ void FillScreen(unsigned char* videoRam, const tColor *c) {
 }
 
 int Iteration(tComplex *c) {
-	tComplex zAlt = {0, 0};
-	tComplex zNeu = {0, 0};
+	tComplex zComplex = {0, 0};
 	int i = 0;
 	for(i = 0; i < MAX_ITERATION; i++) {
-		double real = (pow(zAlt.re, 2) - pow(zAlt.im, 2)) + c->re;
-		double imag = (2 * zAlt.re * zAlt.im) + c->im;
+		double real = (pow(zComplex.re, 2) - pow(zComplex.im, 2)) + c->re;
+		double imag = (2 * zComplex.re * zComplex.im) + c->im;
 		if(pow(real, 2) + pow(imag, 2) > pow(MAX_BETRAG, 2)) break;
-		zNeu.re = real;
-		zNeu.im = imag;
-		zAlt.re = zNeu.re;
-		zAlt.im = zNeu.im;
+		zComplex.re = real;
+		zComplex.im = imag;
 	}
 	return i;
 }
