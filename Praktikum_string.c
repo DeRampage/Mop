@@ -123,8 +123,12 @@ int ReplaceWord(char* dest, const char* src, const char* word, const char* newWo
 	strcpy(dest, src);
 	int i = 0;
 	int l = strlen(newWord);
+	char* marker = strstr(dest, word);
 	while(marker != NULL){
 		i++;
+		strncpy(marker, newWord, l);
+		marker += l;
+		marker = strstr(marker, word);
 	}
 	return i;
 }
