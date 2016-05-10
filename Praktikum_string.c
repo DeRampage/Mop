@@ -55,8 +55,9 @@ int main(void){
 	char nochneuertext[GIGA] ="";
 	char neueswort[ZWO] ="";
 	printf("\nErsetze \"%s\" durch : ", wort);
-	scanf("%s\n", &neueswort);
+	scanf("%32s\n", &neueswort);
 	int check = ReplaceWord(nochneuertext, text, wort, neueswort);
+	printf("Text ersetzt: %s", nochneuertext);
 	ReplaceWord2(nochneuertext, text, wort, neueswort);
 	printf("Text ersetzt 2: %s", nochneuertext);
 	
@@ -120,6 +121,7 @@ int CountWord(const char* src, const char* word) {
 
 int ReplaceWord(char* dest, const char* src, const char* word, const char* newWord) {
 	if(src == NULL || dest == NULL || newWord == NULL || word == NULL) return -1;
+	if(strlen(word) != strlen(newWord)) return -1;
 	strcpy(dest, src);
 	int i = 0;
 	int l = strlen(newWord);
@@ -146,6 +148,7 @@ int ReplaceWord2(char* dest, const char* src, const char* word, const char* newW
 			dest[i] = '\0';
 		}
 		strcpy(dest, temp);
+		return 1;
 	}else{
 		return 0;
 	}
