@@ -70,31 +70,30 @@ int main(int argc, char** argv) {
 	videoRam = screen->pixels;
 	
 	// Aufgabe 1
-	tColor sandyBrown = { .blue = 0x60, .green = 0xA4, .red = 0xF4, .alpha = 0xFF};
+	//tColor sandyBrown = { .blue = 0x60, .green = 0xA4, .red = 0xF4, .alpha = 0xFF};
 	//PutPixel(videoRam, 50, 50, &sandyBrown);
 	
 	// Aufgabe 2
 	//FillScreen(videoRam, &sandyBrown);
 	
 	//Aufgabe 3
-	
+	/*
 	tComplex ceins = {0, 0}; // Antwort 128
 	tComplex czwo = {0.5, 0}; // Antwort 5
 	tComplex cdrei = {-14, 17}; // Antwort 0
 	printf("Anzahl Wiederholung: %i", Iteration(&czwo));
-	
+	*/
 	
 	//Aufgabe 5
-	
-	tComplex ctest = {-2, -1};
-	double delta = 0.008;
-	
-	
-	// Aufgabe 6
 	/*
+	tComplex ctest = {-2.0, -1.0};
+	double delta = 0.008;
+	*/
+	// Aufgabe 6
+	
 	tComplex ctest = {0.410600057, 0.3616605002};
 	double delta = 0.0000004;
-	*/
+	
 	
 	Mandelbrot(videoRam, &ctest, delta);
 	
@@ -103,6 +102,12 @@ int main(int argc, char** argv) {
 }
 
 void PutPixel(unsigned char* videoRam, int x, int y, const tColor *c) {
+	int marker = ((SIZE_X * y) + x) * 4;
+	videoRam[marker] = c->blue;
+	videoRam[marker + 1] = c->green;
+	videoRam[marker + 2] = c->red;
+	videoRam[marker + 3] = c->alpha;
+	/*
 	if(x >= 0 && x < SIZE_Y * 4){
 		x = x * 4;
 		if(y >= 0 && y < SIZE_Y){
@@ -117,6 +122,7 @@ void PutPixel(unsigned char* videoRam, int x, int y, const tColor *c) {
 			videoRam[x + 3] = c->alpha;
 		}
 	}
+	*/
 }
 
 void FillScreen(unsigned char* videoRam, const tColor *c) {
@@ -136,9 +142,9 @@ int Iteration(tComplex *c) {
 	tComplex zComplex = {0, 0};
 	int i = 0;
 	for(i = 0; i < MAX_ITERATION; i++) {
-		double real = (pow(zComplex.re, 2) - pow(zComplex.im, 2)) + c->re;
+		double real = (zComplex.re * zComplex.re - zComplex.im * zComplex.im) + c->re;
 		double imag = (2 * zComplex.re * zComplex.im) + c->im;
-		if(pow(real, 2) + pow(imag, 2) > pow(MAX_BETRAG, 2)) break;
+		if(real * real + imag * imag > MAX_BETRAG * MAX_BETRAG) break;
 		zComplex.re = real;
 		zComplex.im = imag;
 	}
@@ -147,11 +153,11 @@ int Iteration(tComplex *c) {
 
 void Mandelbrot (unsigned char* videoRam, tComplex *c, double delta) {
 	double start = c -> re;
-	for(int i = 0; i < SIZE_Y; i++) {
+	for(int y = 0; y < SIZE_Y; y++) {
 		c->re = start;
-		for(int k = 0; k < SIZE_X; k++) {
+		for(int x = 0; x < SIZE_X; x++) {
 			tColor color = gColorList[Iteration(c)];
-			PutPixel(videoRam, k, i, &color);
+			PutPixel(videoRam, x, y, &color);
 			c->re += delta;
 		}
 		c->im += delta;
