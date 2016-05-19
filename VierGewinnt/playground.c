@@ -16,7 +16,13 @@ static SDL_Surface* chips[6];
 static SDL_Surface* win;
 static SDL_Surface* black;
 
+/* My Space */
 
+typedef struct{
+	int Status;
+} tPlayer;
+
+/*My Space End */
 /* loads a bmp into  array chips */
 static int LoadChip(char* fileName, SDL_Surface* chips[], int index) {
 	chips[index] = SDL_LoadBMP(fileName);	
