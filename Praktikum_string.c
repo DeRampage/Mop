@@ -57,6 +57,7 @@ int main(void){
 	printf("\nErsetze \"%s\" durch : ", wort);
 	scanf("%s\n", &neueswort);
 	int check = ReplaceWord(nochneuertext, text, wort, neueswort);
+	if(check >= 0) printf("Text ersetzt : %s", nochneuertext);
 	ReplaceWord2(nochneuertext, text, wort, neueswort);
 	printf("Text ersetzt 2: %s", nochneuertext);
 	
@@ -123,8 +124,12 @@ int ReplaceWord(char* dest, const char* src, const char* word, const char* newWo
 	strcpy(dest, src);
 	int i = 0;
 	int l = strlen(newWord);
+	char* marker = strstr(dest, word);
 	while(marker != NULL){
 		i++;
+		strncpy(marker, newWord, l);
+		marker += l;
+		marker = strstr(marker, word);
 	}
 	return i;
 }
