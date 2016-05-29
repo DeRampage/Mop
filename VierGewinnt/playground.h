@@ -1,7 +1,7 @@
 #ifndef PLAYGROUND_H
 #define PLAYGROUND_H
 
-typedef enum tPlayer; /* ToDo */
+typedef enum tPlayer{EMPTY, PLAYER_L, PLAYER_R}; /* ToDo */
 
 
 /* initializes a playground with x*y elements. x,y within 4..8 */

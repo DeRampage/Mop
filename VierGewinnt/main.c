@@ -1,6 +1,6 @@
 #include "playground.h"
-#define MAX_X 3
-#define MAX_Y 3
+#define MAX_X 4
+#define MAX_Y 4
 
 int main(int argc, char **argv)
 {
