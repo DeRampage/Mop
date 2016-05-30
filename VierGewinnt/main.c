@@ -35,17 +35,15 @@ int CheckComplete(tPlayer array[]) {
 	}
 }
 
-int CheckHor (const tPlayer array[], tPlayer player){
+int CheckHor (const tPlayer array[], tPlayer player){//geht doch über 2 zeilen
 	//INIT
-	int max_verschiebung = MAX_X - 4;
-	int x = 0;
-	int y = 0;
+	int max_verschiebung = MAX_X - 4;//maximale Ausbreitung um noch 4 zu schaffen
 	int won = 0;
 	
 	//Check
-		for(x = 0; x <= max_verschiebung; x++) {//stellt sicher dass 4 nicht über zwei Zeilen geht
-			for(y = 0; y <= MAX_Y; y++) {//stellt sicher dass 4 nicht über zwei Zeilen geht
-				if(array[x + y] == player){
+		for(int x = 0; x <= max_verschiebung; x++) {//stellt sicher dass 4 nicht über zwei Zeilen geht
+			for(int y = 0; y <= MAX_Y; y = y + MAX_X) {//geht die Zeilen durch
+				if(array[x + y] == player){//geht von links nach rechts durch die Reihe
 					if(array[x + y + 1] == player){
 						if(array[x + y + 2] == player){
 							if(array[x + y + 3] == player){
@@ -66,21 +64,73 @@ int CheckHor (const tPlayer array[], tPlayer player){
 	}
 }
 
+int CheckVer (const tPlayer array[], tPlayer player){
+		//INIT
+	int max_verschiebung = MAX_Y - 4;//maximale Ausbreitung um noch 4 zu schaffen
+	int won = 0;
+	
+	//Check
+		for(int x = 0; x <= MAX_X; x++) {//stellt sicher dass 4er nicht über zwei Zeilen geht
+			for(int y = 0; y <= max_verschiebung; y++) {//geht die Zeilen durch
+				if(array[x + y] == player){//geht von links nach rechts durch die Reihe
+					if(array[x + y + MAX_X] == player){
+						if(array[x + y + MAX_X + MAX_X] == player){
+							if(array[x + y + MAX_X + MAX_X + MAX_X] == player){
+								won++;
+							}
+						}		
+					}	
+				}
+			}
+		}
+	
+	//Result
+	if(won > 0) {
+		ShowYouWon(player);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+
 int main(int argc, char **argv)
 {
 	enum tPlayer playGround[MAX_X * MAX_Y] = {0};
 	InitPlayGround(MAX_X, MAX_Y);
 	
+	/* Testarea
+	playGround[0] = 2; 
+	playGround[5] = 2;
+	playGround[10] = 2;
+	playGround[15] = 2;
+	*/
+	int player = 1; // Rot beginnt
 	DrawChips(13, 13, 1); //Anzahl verbleibende Chips malen
 	
-	/* Testarea
-	playGround[MAX_Y * MAX_X] = 1; //Außerhalb der Grenzen
-	playGround[4] = 1;
-	*/
+	DrawPlayGround(playGround, MAX_X, MAX_Y);//Spielfläche aufbauen
 	
-	DrawPlayGround(playGround, MAX_X, MAX_Y);
-	while (CheckComplete(playGround) == 0 && CheckHor(playGround, 1) == 0 && CheckHor(playGround, 2) == 0) {
+	int won = 0;
+	while (CheckComplete(playGround) == 0 && CheckHor(playGround, 2) == 0) {
 		DropChip(playGround, SelectCol(), PLAYER_R);
 	}
+	/*
+	while (CheckComplete(playGround) == 0 && won == 0) {
+		
+		if(player == 1){ //Spielerrotation
+			DropChip(playGround, SelectCol(), PLAYER_L);
+			won = CheckHor(playGround, 1);
+			won = CheckVer(playGround, 1);
+			DrawChips(13, 13, 2); //Anzahl verbleibende Chips malen
+			player = 2;
+		} else {
+			DropChip(playGround, SelectCol(), PLAYER_R);
+			won = CheckHor(playGround, 2);
+			won = CheckVer(playGround, 2);
+			DrawChips(13, 13, 1); //Anzahl verbleibende Chips malen
+			player = 1;
+		}
+	}
+	*/
 	return 0;
 }
