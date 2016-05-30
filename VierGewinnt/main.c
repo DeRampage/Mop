@@ -35,13 +35,35 @@ int CheckComplete(tPlayer array[]) {
 	}
 }
 
+int CheckHor (const tPlayer array[], tPlayer player){
+	int x = 0;
+	int y = 0;
+	int won = 0;
+	while(won != 1) {
+		if(array[x] == player){
+			if(array[x + 1] == player){
+				if(array[x + 2] == player){
+					if(array[x + 3] == player){
+						won++;
+					}
+				}		
+			}	
+		}
+	y++;
+	x = x + y;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	enum tPlayer playGround[MAX_X * MAX_Y] = {0};
 	InitPlayGround(MAX_X, MAX_Y);
-	/* Testarea*/
-	playGround[MAX_Y * MAX_X] = 1;
 	
+	DrawChips(13, 13, 1); //Anzahl verbleibende Chips malen
+	
+	/* Testarea
+	playGround[MAX_Y * MAX_X] = 1; //Auﬂerhalb der Grenzen
+	*/
 	DrawPlayGround(playGround, MAX_X, MAX_Y);
 	while (CheckComplete(playGround) == 0) {
 		DropChip(playGround, SelectCol(), PLAYER_R);
