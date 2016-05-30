@@ -35,7 +35,7 @@ int CheckComplete(tPlayer array[]) {
 	}
 }
 
-int CheckHor (const tPlayer array[], tPlayer player, int coordsx, int coordsy){//geht doch über 2 zeilen
+int CheckHor (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy){//geht doch über 2 zeilen
 	//INIT
 	int max_verschiebung = MAX_X - 4;//maximale Ausbreitung um noch 4 zu schaffen
 	int won = 0;
@@ -48,8 +48,8 @@ int CheckHor (const tPlayer array[], tPlayer player, int coordsx, int coordsy){/
 						if(array[x + y + 2] == player){
 							if(array[x + y + 3] == player){
 								won++;
-								coordsx = x;
-								coordsy = y;
+								*coordsx = x;
+								*coordsy = y;
 							}
 						}		
 					}	
@@ -66,7 +66,7 @@ int CheckHor (const tPlayer array[], tPlayer player, int coordsx, int coordsy){/
 	}
 }
 
-int CheckVer (const tPlayer array[], tPlayer player, int coordsx, int coordsy){
+int CheckVer (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy){
 		//INIT
 	int max_verschiebung = MAX_Y - 4;//maximale Ausbreitung um noch 4 zu schaffen
 	int won = 0;
@@ -79,8 +79,8 @@ int CheckVer (const tPlayer array[], tPlayer player, int coordsx, int coordsy){
 						if(array[x + y + MAX_X + MAX_X] == player){
 							if(array[x + y + MAX_X + MAX_X + MAX_X] == player){
 								won++;
-								coordsx = x;
-								coordsy = y;
+								*coordsx = x;
+								*coordsy = y;
 							}
 						}		
 					}	
@@ -126,12 +126,12 @@ int main(int argc, char **argv)
 		if(player == 1){ //Spielerrotation
 			while(DropChip(playGround, SelectCol(), PLAYER_L)==0){}//Wiederholen bis richtig gesetzt wurde
 			chips_rot--;
-			if(CheckHor(playGround, 1, x, y) == 1) {
+			if(CheckHor(playGround, 1, &x, &y) == 1) {
 				HighlightChipHor(x, y);
 				ShowYouWon(1);				
 				return 0;
 			}
-			if(CheckVer(playGround, 1, x, y) == 1) {
+			if(CheckVer(playGround, 1, &x, &y) == 1) {
 				HighlightChipVer(x, y);
 				ShowYouWon(1);				
 				return 0;
@@ -141,12 +141,12 @@ int main(int argc, char **argv)
 		} else {
 			while(DropChip(playGround, SelectCol(), PLAYER_R)==0){}//Wiederholen bis richtig gesetzt wurde
 			chips_gelb--;
-			if(CheckHor(playGround, 2, x, y) == 1) {
+			if(CheckHor(playGround, 2, &x, &y) == 1) {
 				HighlightChipHor(x, y);
 				ShowYouWon(2);				
 				return 0;
 			}
-			if(CheckVer(playGround, 2, x, y) == 1) {
+			if(CheckVer(playGround, 2, &x, &y) == 1) {
 				HighlightChipVer(x, y);
 				ShowYouWon(2);				
 				return 0;
