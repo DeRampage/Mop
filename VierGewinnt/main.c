@@ -74,10 +74,10 @@ int CheckVer (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy)
 	//Check
 		for(int x = 0; x <= MAX_X; x++) {//stellt sicher dass 4er nicht über zwei Zeilen geht
 			for(int y = 0; y <= max_verschiebung; y++) {//geht die Zeilen durch
-				if(array[x + y] == player){//geht von links nach rechts durch die Reihe
-					if(array[x + y + MAX_X] == player){
-						if(array[x + y + MAX_X + MAX_X] == player){
-							if(array[x + y + MAX_X + MAX_X + MAX_X] == player){
+				if(array[x + (y * MAX_X)] == player){//geht von links nach rechts durch die Reihe
+					if(array[x + (y * MAX_X) + MAX_X] == player){
+						if(array[x + (y * MAX_X) + MAX_X + MAX_X] == player){
+							if(array[x + (y * MAX_X) + MAX_X + MAX_X + MAX_X] == player){
 								won++;
 								*coordsx = x;
 								*coordsy = y;
