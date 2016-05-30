@@ -43,7 +43,6 @@ int CheckHor (const tPlayer array[], tPlayer player){
 	int won = 0;
 	
 	//Check
-	while(won != 1) {
 		for(x = 0; x <= max_verschiebung; x++) {//stellt sicher dass 4 nicht ¸ber zwei Zeilen geht
 			for(y = 0; y <= MAX_Y; y++) {//stellt sicher dass 4 nicht ¸ber zwei Zeilen geht
 				if(array[x + y] == player){
@@ -57,7 +56,6 @@ int CheckHor (const tPlayer array[], tPlayer player){
 				}
 			}
 		}
-	}
 	
 	//Result
 	if(won > 0) {
@@ -77,9 +75,11 @@ int main(int argc, char **argv)
 	
 	/* Testarea
 	playGround[MAX_Y * MAX_X] = 1; //Auﬂerhalb der Grenzen
+	playGround[4] = 1;
 	*/
+	
 	DrawPlayGround(playGround, MAX_X, MAX_Y);
-	while (CheckComplete(playGround) == 0 /*&& CheckHor(playGround, 1) == 0 && CheckHor(playGround, 2) == 0*/) {
+	while (CheckComplete(playGround) == 0 && CheckHor(playGround, 1) == 0 && CheckHor(playGround, 2) == 0) {
 		DropChip(playGround, SelectCol(), PLAYER_R);
 	}
 	return 0;
