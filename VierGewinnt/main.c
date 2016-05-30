@@ -19,14 +19,32 @@ int DropChip(tPlayer array[], int col, tPlayer chip) {
 	}
 }
 
+int CheckComplete(tPlayer array[]) {
+	int x = MAX_X;
+	int counter = 0;
+	while(x > 0) {
+		x--;
+		if(array[MAX_Y * MAX_X - x - 1] != 0){
+			counter++;
+		}
+	}
+	if(counter == MAX_X) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	enum tPlayer playGround[MAX_X * MAX_Y] = {0};
 	InitPlayGround(MAX_X, MAX_Y);
-	/* Testarea	*/
-	playGround[(MAX_Y - 1) * MAX_X] = 1;
+	/* Testarea*/
+	playGround[MAX_Y * MAX_X] = 1;
 	
 	DrawPlayGround(playGround, MAX_X, MAX_Y);
-	DropChip(playGround, SelectCol(), PLAYER_R);
+	while (CheckComplete(playGround) == 0) {
+		DropChip(playGround, SelectCol(), PLAYER_R);
+	}
 	return 0;
 }
