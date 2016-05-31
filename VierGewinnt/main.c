@@ -35,21 +35,21 @@ int CheckComplete(tPlayer array[]) {
 	}
 }
 
-int CheckHor (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy){//geht doch über 2 zeilen
+int CheckHor (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy){//geht doch Ã¼ber 2 zeilen
 	//INIT
 	int max_verschiebung = MAX_X - 4;//maximale Ausbreitung um noch 4 zu schaffen
 	int won = 0;
 	
 	//Check
-		for(int x = 0; x <= max_verschiebung; x++) {//stellt sicher dass 4 nicht über zwei Zeilen geht
-			for(int y = 0; y <= MAX_Y; y = y + MAX_X) {//geht die Zeilen durch
+		for(int x = 0; x <= max_verschiebung; x++) {//stellt sicher dass 4 nicht Ã¼ber zwei Zeilen geht
+			for(int y = 0; y <= (MAX_Y - 1) * MAX_X; y = y + MAX_X) {//geht die Zeilen durch
 				if(array[x + y] == player){//geht von links nach rechts durch die Reihe
 					if(array[x + y + 1] == player){
 						if(array[x + y + 2] == player){
 							if(array[x + y + 3] == player){
 								won++;
 								*coordsx = x;
-								*coordsy = y;
+								*coordsy = y / MAX_X;
 							}
 						}		
 					}	
@@ -72,12 +72,13 @@ int CheckVer (const tPlayer array[], tPlayer player, int *coordsx, int *coordsy)
 	int won = 0;
 	
 	//Check
-		for(int x = 0; x <= MAX_X; x++) {//stellt sicher dass 4er nicht über zwei Zeilen geht
-			for(int y = 0; y <= max_verschiebung; y++) {//geht die Zeilen durch
-				if(array[x + (y * MAX_X)] == player){//geht von links nach rechts durch die Reihe
-					if(array[x + (y * MAX_X) + MAX_X] == player){
-						if(array[x + (y * MAX_X) + MAX_X + MAX_X] == player){
-							if(array[x + (y * MAX_X) + MAX_X + MAX_X + MAX_X] == player){
+		for(int x = 0; x < MAX_X; x++) {
+			for(int y = 0; y <= max_verschiebung; y++) {
+			
+				if(array[x + (y * MAX_X)] == player){//Erster Fund
+					if(array[x + (y * MAX_X) + MAX_X] == player){//1 Zeile Ã¼ber erster Fund
+						if(array[x + (y * MAX_X) + 2 * MAX_X] == player){
+							if(array[x + (y * MAX_X) + 3 * MAX_X] == player){
 								won++;
 								*coordsx = x;
 								*coordsy = y;
@@ -114,7 +115,7 @@ int main(int argc, char **argv)
 	int player = 2; // Gelb beginnt
 	DrawChips( chips_gelb, chips_rot, player); //Anzahl verbleibende Chips malen
 	
-	DrawPlayGround(playGround, MAX_X, MAX_Y);//Spielfläche aufbauen
+	DrawPlayGround(playGround, MAX_X, MAX_Y);//SpielflÃ¤che aufbauen
 	
 	/*
 	while (CheckComplete(playGround) == 0 && CheckHor(playGround, 2) == 0) {
@@ -128,12 +129,14 @@ int main(int argc, char **argv)
 			chips_rot--;
 			if(CheckHor(playGround, 1, &x, &y) == 1) {
 				HighlightChipHor(x, y);
-				ShowYouWon(1);				
+				ShowYouWon(1);	
+				DrawChips(0, 0, 0);			
 				return 0;
 			}
 			if(CheckVer(playGround, 1, &x, &y) == 1) {
 				HighlightChipVer(x, y);
-				ShowYouWon(1);				
+				ShowYouWon(1);
+				DrawChips(0, 0, 0);				
 				return 0;
 			}
 			player = 2;
@@ -143,17 +146,20 @@ int main(int argc, char **argv)
 			chips_gelb--;
 			if(CheckHor(playGround, 2, &x, &y) == 1) {
 				HighlightChipHor(x, y);
-				ShowYouWon(2);				
+				ShowYouWon(2);		
+				DrawChips(0, 0, 0);		
 				return 0;
 			}
 			if(CheckVer(playGround, 2, &x, &y) == 1) {
 				HighlightChipVer(x, y);
-				ShowYouWon(2);				
+				ShowYouWon(2);	
+				DrawChips(0, 0, 0);			
 				return 0;
 			}
 			player = 1;
 			DrawChips( chips_gelb, chips_rot, player); //Anzahl verbleibende Chips malen
 		}
 	}
+	DrawChips(0, 0, 0);
 	return 0;
 }
