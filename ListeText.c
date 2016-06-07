@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_LENGTH 1024
+
 typedef struct list {
 	struct list *next;
 	char data[1];
@@ -19,7 +21,7 @@ void DeleteList(tList* head) {
 }
 
 tList* CreateWord (char * word) {						//erzeugt neues listenelement u. setzt next = null
-	tList* neu = calloc(1, sizeof(tList) + strlen(word));//Platz fürListe + Wordlaenge freigeben
+	tList* neu = calloc(1, sizeof(tList) + strlen(word));//Platz f?rListe + Wordlaenge freigeben
 	neu->next = NULL;									
 	strcpy(neu->data, word);							//Fuegt das Wort an der ersten Stelle ein
 	return neu;	
@@ -34,8 +36,8 @@ tList* AddElement (tList* head, char* word) {
 		while(temporary->next != NULL) {					//Liste bis zum Ende durchlaufen
 			temporary = temporary->next;					//Einen Schritt weitergehen
 		}
-		temporary->next = CreateWord(word);				//Wort einfügen
-		return head;
+		temporary->next = CreateWord(word);				//Wort einf?gen
+		return temporary->next;
 	}
 }
 
@@ -61,7 +63,7 @@ void PrintList(tList* head) {
 }
 
 tList* ReadText (void) {
-	char string[1024];
+	char string[MAX_LENGTH] ="";
 	int abort = 0;
 	tList* list = NULL;
 	printf("Geben Sie bitte Ihren Text ein: ");
@@ -111,11 +113,10 @@ tList* CopyReverse(tList* original) {
 }
 
 int main(void){
-	
 	tList* einlesen = ReadText();
 	
-	char suchwort[1024];
-	char ersetzwort[1024];
+	char suchwort[MAX_LENGTH] ="";
+	char ersetzwort[MAX_LENGTH] = "";
 	printf("Gesuchtes Wort ist: ");
 	scanf("%1023s", &suchwort);
 	printf("Ersetzendes Wort ist: ");
@@ -123,7 +124,7 @@ int main(void){
 	
 	PrintList(einlesen);
 	
-	InReplaceWord(einlesen, suchwort, ersetzwort);
+	einlesen = InReplaceWord(einlesen, suchwort, ersetzwort);
 	PrintList(einlesen);
 	
 	tList* copy = CopyReverse(einlesen);
@@ -131,5 +132,6 @@ int main(void){
 	
 	DeleteList(einlesen);
 	DeleteList(copy);
+	
 	return 0;
 }
