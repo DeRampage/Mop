@@ -7,11 +7,21 @@ typedef struct list {
 	char data[1];
 } tList;
 
+void DeleteList(tList* head) {
+	tList* irgendwas = NULL;
+	while(head) {
+		irgendwas = head;
+		head = head->next;
+		free(irgendwas);
+		irgendwas = NULL;
+	}
+	return;
+}
 
 tList* CreateWord (char * word) {						//erzeugt neues listenelement u. setzt next = null
 	tList* neu = calloc(1, sizeof(tList) + strlen(word));//Platz fürListe + Wordlaenge freigeben
 	neu->next = NULL;									
-	strcpy(neu->data, word);								//Fuegt das Wort an der ersten Stelle ein
+	strcpy(neu->data, word);							//Fuegt das Wort an der ersten Stelle ein
 	return neu;	
 }
 
@@ -41,11 +51,13 @@ tList* AddElementTop (tList* head, char* word) {
 }
 
 void PrintList(tList* head) {
-	while(head->next != NULL) {
-		printf("%s ", head->data);
-		head = head->next;
+	tList* temporary = head;
+	while(temporary->next != NULL) {
+		printf("%s ", temporary->data);
+		temporary = temporary->next;
 	}
-	printf("%s\n", head->data);
+	printf("%s\n", temporary->data);
+	return;
 }
 
 tList* ReadText (void) {
@@ -83,6 +95,7 @@ tList* InReplaceWord(tList* head, char* suchwort, char* ersetzwort) {
 		}
 		temporary = temporary->next;
 	}
+	//DeleteList(temporary);
 	return head;
 }
 
@@ -93,27 +106,13 @@ tList* CopyReverse(tList* original) {
 		neu = AddElementTop(neu, temporary->data);
 		temporary = temporary->next;
 	}
+	DeleteList(temporary);
 	return neu;
 }
 
 int main(void){
-	/*
-	tList* neu = CreateWord("Hallo");
 	
-	tList* head = AddElement(NULL, "Kopf");
-	AddElement(AddElement(head, "bis"), "Fuss");
-	*/
-	
-	tList* newHead = AddElementTop(
-						AddElementTop(
-							AddElementTop(NULL, "Fuss"), "bis"), "Kopf");
-	
-	PrintList(newHead);
-	newHead = CopyReverse(newHead);
-	PrintList(newHead);
-	/*
 	tList* einlesen = ReadText();
-	PrintList(einlesen);
 	
 	char suchwort[1024];
 	char ersetzwort[1024];
@@ -122,8 +121,15 @@ int main(void){
 	printf("Ersetzendes Wort ist: ");
 	scanf("%1023s", &ersetzwort);
 	
-	einlesen = InReplaceWord(einlesen, suchwort, ersetzwort);
 	PrintList(einlesen);
-	*/
+	
+	InReplaceWord(einlesen, suchwort, ersetzwort);
+	PrintList(einlesen);
+	
+	tList* copy = CopyReverse(einlesen);
+	PrintList(copy);
+	
+	DeleteList(einlesen);
+	DeleteList(copy);
 	return 0;
 }
