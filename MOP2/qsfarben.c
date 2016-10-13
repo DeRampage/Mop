@@ -165,14 +165,20 @@ int EventLoop(void)
 /* ToDo: Write Compare Functions */
 int cmpfunc (const void* a, const void* b)
 {
-	const tColor **ap = a, **bp = b;
-	return ( *(int *)a - *(int *)b );
+	if((((tColor*)a)->red) < (((tColor*)b)->red)){
+		return 1;
+	}
+	else if((((tColor*)a)->red) > (((tColor*)b)->red)){
+		return -1;
+	}
+	else {
+		return 0;
+	}
 }
 
 
 int main(void)
 {
-	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		return 1;
   
@@ -185,12 +191,10 @@ int main(void)
 
 	
 	DrawColors(screen, gList);
-	
 	/* ToDo: add function call to qsort() */
-	qsort(gList, sizeof(gList), sizeof(tColor), cmpfunc);
+	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
 	
 	DrawColors(screen, gList);
 	
 	return EventLoop();
 }
-
