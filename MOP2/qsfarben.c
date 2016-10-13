@@ -163,9 +163,12 @@ int EventLoop(void)
 }
 
 /* ToDo: Write Compare Functions */
-tColor sort(tColor liste) {
-	return liste;
+int cmpfunc (const void* a, const void* b)
+{
+	const tColor **ap = a, **bp = b;
+	return ( *(int *)a - *(int *)b );
 }
+
 
 int main(void)
 {
@@ -183,8 +186,8 @@ int main(void)
 	
 	DrawColors(screen, gList);
 	
-	gList = sort(gList);
 	/* ToDo: add function call to qsort() */
+	qsort(gList, sizeof(gList), sizeof(tColor), cmpfunc);
 	
 	DrawColors(screen, gList);
 	
