@@ -2,6 +2,8 @@
 #define MAX_COLORS 80
 #define BLOCK_SIZE 48
 
+SDL_Surface *screen;
+
 typedef struct {
 	unsigned char blue, green, red, alpha;
 } tColor;
@@ -93,7 +95,7 @@ tColor gList[MAX_COLORS] =
 	92, 64, 64, 255,
 	128, 64, 192, 255,
 	192, 64, 192, 255,
-	192, 64, 128, 255,
+	192, 64, 128, 250,
 };
 
 void CreateRandomGray(tColor list[])
@@ -150,10 +152,11 @@ int EventLoop(void)
 			case SDL_MOUSEBUTTONDOWN:
 				index = event.button.x / BLOCK_SIZE + event.button.y / BLOCK_SIZE * 10;
 				if (index<MAX_COLORS)
-					printf("Farbe: r=%2hhx,g=%2hhx,b=%2hhx\n",
+					printf("Farbe: r=%2hhx,g=%2hhx,b=%2hhx,alpha=%2hhx\n",
 							gList[index].red,
 							gList[index].green,
-							gList[index].blue);
+							gList[index].blue,
+							gList[index].alpha);
 
 				break;
 			default: break;
@@ -169,6 +172,19 @@ int cmpfunc_red (const void* a, const void* b)
 		return -1;
 	}
 	else if((((tColor*)a)->red) > (((tColor*)b)->red)){
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+int cmpfunc_alpha (const void* a, const void* b)
+{
+	if((((tColor*)a)->alpha) < (((tColor*)b)->alpha)){
+		return -1;
+	}
+	else if((((tColor*)a)->alpha) > (((tColor*)b)->alpha)){
 		return 1;
 	}
 	else {
@@ -207,7 +223,10 @@ int cmpfunc (const void* a, const void* b)
 
 int cmpfunc_bright (const void* a, const void* b)
 {
-	return 
+	DrawColors(screen, gList);
+	int links = (int)(((tColor*)a)->blue) + (int)(((tColor*)a)->red) + (int)(((tColor*)a)->green);
+	int rechts = (int)(((tColor*)b)->blue) + (int)(((tColor*)b)->red) + (int)(((tColor*)b)->green);
+	return links - rechts;
 }
 
 int main(void)
@@ -217,7 +236,7 @@ int main(void)
   
     atexit(SDL_Quit);
 
-    SDL_Surface *screen = SDL_SetVideoMode(BLOCK_SIZE*10, BLOCK_SIZE*8, 0, 0);
+    extern SDL_Surface *screen = SDL_SetVideoMode(BLOCK_SIZE*10, BLOCK_SIZE*8, 0, 0);
     //screen = SDL_SetVideoMode(BLOCK_SIZE * 10, BLOCK_SIZE *8, 0, 0);
     if (screen == NULL)
         return 2;
@@ -228,10 +247,16 @@ int main(void)
 	
 	//nach rot sortiert
 	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_red);
+	
 	//nach rot,grün,blau
 	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
-	//nach rot,grün,blau
-	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_bright);
+	
+	//nach alpha
+	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_alpha);
+	
+	//nach Helligkeit
+	//CreateRandomGray(gList);
+	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_bright);
 	
 	DrawColors(screen, gList);
 	
