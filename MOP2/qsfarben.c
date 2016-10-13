@@ -163,19 +163,52 @@ int EventLoop(void)
 }
 
 /* ToDo: Write Compare Functions */
-int cmpfunc (const void* a, const void* b)
+int cmpfunc_red (const void* a, const void* b)
 {
 	if((((tColor*)a)->red) < (((tColor*)b)->red)){
-		return 1;
+		return -1;
 	}
 	else if((((tColor*)a)->red) > (((tColor*)b)->red)){
-		return -1;
+		return 1;
 	}
 	else {
 		return 0;
 	}
 }
 
+int cmpfunc (const void* a, const void* b)
+{
+	if((((tColor*)a)->red) < (((tColor*)b)->red)){
+		return -1;
+	}
+	else if((((tColor*)a)->red) > (((tColor*)b)->red)){
+		return 1;
+	}
+	else if((((tColor*)a)->red) == (((tColor*)b)->red)){
+		if((((tColor*)a)->green) < (((tColor*)b)->green)){
+			return -1;
+		}
+		else if((((tColor*)a)->green) > (((tColor*)b)->green)){
+			return 1;
+		}
+		else if((((tColor*)a)->green) == (((tColor*)b)->green)){
+			if((((tColor*)a)->blue) < (((tColor*)b)->blue)){
+				return -1;
+			}
+			else if((((tColor*)a)->blue) > (((tColor*)b)->blue)){
+				return 1;
+			}
+			else if((((tColor*)a)->blue) == (((tColor*)b)->blue)){
+				return 0;
+			}
+		}
+	}
+}
+
+int cmpfunc_bright (const void* a, const void* b)
+{
+	return 
+}
 
 int main(void)
 {
@@ -192,7 +225,13 @@ int main(void)
 	
 	DrawColors(screen, gList);
 	/* ToDo: add function call to qsort() */
-	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
+	
+	//nach rot sortiert
+	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_red);
+	//nach rot,grün,blau
+	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
+	//nach rot,grün,blau
+	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_bright);
 	
 	DrawColors(screen, gList);
 	
