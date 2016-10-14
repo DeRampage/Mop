@@ -249,10 +249,10 @@ int main(void)
 	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_red);
 	
 	//nach rot,grün,blau
-	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
+	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc);
 	
 	//nach alpha
-	qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_alpha);
+	//qsort(gList, MAX_COLORS, sizeof(tColor), cmpfunc_alpha);
 	
 	//nach Helligkeit
 	//CreateRandomGray(gList);

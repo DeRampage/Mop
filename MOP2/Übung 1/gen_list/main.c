@@ -31,9 +31,18 @@ tStudent* ReadElement(FILE *f)
 
 /* ToDo: Vergleichsfunktionen */
 
-int CompareName(void* a,void*b);
-int CompareSurname(void* a,void*b);
-int CompareNumber(void* a,void*b);
+int CompareName(void* a,void*b){
+	tStudent *ap = a, *bp = b;
+	return strcmp((ap)->name, (bp)->name);
+}
+int CompareSurname(void* a,void*b){
+	tStudent *ap = a, *bp = b;
+	return strcmp((ap)->surname, (bp)->surname);
+}
+int CompareNumber(void* a,void*b){
+	tStudent *ap = a, *bp = b;
+	return (((ap)->number) - ((bp)->number));
+}
 
 
 /* ToDo: Zugriffsfunktionen schreiben */
@@ -42,7 +51,8 @@ void* TStudentNext(void*in){
 	return (((tStudent*)in)->next);
 }
 void TStudentSetNext(void*in,void*next) {
-	//printf("%s", (((tStudent*)in)->next));
+	tStudent* element = (tStudent*) next;
+	(((tStudent*)in)->next) = element;
 }
 
 
@@ -64,7 +74,7 @@ void main(void)
 	tStudent liste1 = { "","",0,NULL }; /* dummy element */
 	tStudent liste2 = { "","",0,NULL }; /* dummy element */
 	int sort=0;
-
+	
 	printf("**************** unsortiert *****************\n");
 	f=fopen("studenten.txt","r");
 	if (f)
@@ -76,9 +86,9 @@ void main(void)
 		}
 		fclose(f);
 	}
-
+	
 	PrintList(&liste1);
-    /*
+    
 	printf("Sortierung: 0-Name, 1-Vorname, 2-Nummer? ->");
 	scanf("%d",&sort);
 	printf("***************** sortiert ******************\n");
@@ -101,6 +111,6 @@ void main(void)
 		}
 		fclose(f);
 	}
-    */
+    
 	PrintList(&liste2);
 }
