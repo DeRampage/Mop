@@ -109,7 +109,7 @@ int Enemy(void* dummy){
 			x=nx;
 			y=ny;
 				
-			SDL_Delay(200);
+			SDL_Delay(300);
 			 
 			
 	}
