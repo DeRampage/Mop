@@ -16,15 +16,15 @@ int main(int argc, char *argv[])
 
     // Second Test
 
-//    SimpleSquareFunction q;
-//    myPlot.AddFunction(&q);
-//    myPlot.Draw();
+    SimpleSquareFunction q;
+    myPlot.AddFunction(&q);
+    myPlot.Draw();
 
     // Third Test
 
-//    SquareFunction s(-0.75,10.0,10.0);
-//    myPlot.AddFunction(&s);
-//    myPlot.Draw();
+    SquareFunction s(-0.75,10.0,10.0);
+    myPlot.AddFunction(&s);
+    myPlot.Draw();
 
     // Fourth Test
 
