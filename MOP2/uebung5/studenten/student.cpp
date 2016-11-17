@@ -41,5 +41,3 @@ void Student::PrintExams(void) const
 	cout << endl << "Durchschnitt: " << GetStudentsAverage();
 	cout << endl;
 }
-
-

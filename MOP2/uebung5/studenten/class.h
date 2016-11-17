@@ -14,7 +14,7 @@ public:
     Class(const char* name){ this->name = name; };
 	Class(string& name) { this->name = name; };
 	~Class();
-    void AddStudent(Student* student);
+    void AddStudent(Student* student) const;
     void RemoveStudent(const Student* student);
     void ListStudents() const;
     void ListBestStudents(bool order) const;

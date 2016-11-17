@@ -6,8 +6,8 @@
 int main(void)
 {
 	// Klassen anlegen 
-	Class class1("1. Klasse");
-	class1.AddStudent(new Student("Duck","Donald"));
+    Class class1("1. Klasse");
+    class1.AddStudent(new Student("Duck","Donald"));
 	class1.AddStudent(new Student("Duck","Daisy"));
 	class1.AddStudent(new Student("Gans","Gustav"));
 	class1.ListStudents();
@@ -17,7 +17,6 @@ int main(void)
 	class2.AddStudent(new Student("Duck","Dagobert"));
 	class2.AddStudent(new Student("Klever","Klaas"));
 	class2.ListStudents();
-
     // Pruefungen anlegen und durchfuehren
 
 	Examination exam1("Mathe", Examination::EASY);
@@ -40,7 +39,7 @@ int main(void)
 
     /* Uebung 5.2 c)
 	
-	// Klassendurchschnitt berechnen und ausgeben 
+    //Klassendurchschnitt berechnen und ausgeben
     class1.PrintClassAverage();
     class2.PrintClassAverage();
 
