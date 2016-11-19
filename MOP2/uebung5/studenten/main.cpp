@@ -36,15 +36,13 @@ int main(void)
 	exam3.AddClass(&class1);
 	exam3.Grading();
 	exam3.PrintResults();
-
-    /* Uebung 5.2 c)
 	
     //Klassendurchschnitt berechnen und ausgeben
     class1.PrintClassAverage();
     class2.PrintClassAverage();
 
     /* Uebung 5.2 d)  */
-
+    class1.GetClassStudents().front()->PrintExams();
     // ToDo: 1. Schueler auslesen
 
     /* Uebung  5.2 f) - Zusatzaufgabe

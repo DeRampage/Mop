@@ -13,8 +13,8 @@ class Class
 public:
     Class(const char* name){ this->name = name; };
 	Class(string& name) { this->name = name; };
-	~Class();
-    void AddStudent(Student* student) const;
+    ~Class() {students.clear();};
+    void AddStudent(Student* student);
     void RemoveStudent(const Student* student);
     void ListStudents() const;
     void ListBestStudents(bool order) const;
